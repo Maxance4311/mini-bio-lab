@@ -1,0 +1,15 @@
+{
+  "name": "Mini Bio Lab",
+  "short_name": "BioLab",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1310",
+  "theme_color": "#111c16",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

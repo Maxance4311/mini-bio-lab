@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINI BIO LAB - Personal Research Workspace</title>
+    
+    <!-- PWA / App Installation Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#111c16">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mini Bio Lab">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <!-- Tailwind CSS für modernes Design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0b1310;
+            color: #e5e7eb;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .bg-card { background-color: #121f18; }
+        .bg-card-hover:hover { background-color: #182b21; }
+        .border-custom { border-color: #1f3328; }
+        .accent-green { color: #34d399; }
+        .bg-accent { background-color: #34d399; }
+        .bg-accent-light { background-color: #d1fae5; color: #065f46; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex justify-center items-center">
+
+    <div class="w-full max-w-3xl bg-card border border-custom rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-start mb-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-emerald-900/50 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wider text-white">MINI BIO LAB</h1>
+                    <p class="text-xs text-emerald-400/80 uppercase tracking-widest">Personal Research Workspace</p>
+                </div>
+            </div>
+            <div class="text-emerald-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+            </div>
+        </div>
+
+        <!-- Haupttitel & Beschreibung (Dynamisch per Tab) -->
+        <div class="mb-6">
+            <h2 id="view-title" class="text-2xl font-bold text-white mb-1">Dein Labor.</h2>
+            <p id="view-desc" class="text-sm text-gray-400">Deine wissenschaftliche Arbeit, übersichtlich organisiert.</p>
+        </div>
+
+        <!-- Statistik-Leiste -->
+        <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="bg-[#182b21]/60 border border-custom rounded-xl p-3">
+                <div class="text-xs text-gray-400 mb-1">Inventarartikel</div>
+                <div class="text-2xl font-bold text-white">5</div>
+            </div>
+            <div class="bg-[#182b21]/60 border border-custom rounded-xl p-3">
+                <div class="text-xs text-gray-400 mb-1">Kategorien</div>
+                <div class="text-2xl font-bold text-white">4</div>
+            </div>
+            <div class="bg-[#182b21]/60 border border-custom rounded-xl p-3">
+                <div class="text-xs text-gray-400 mb-1">Nachfüllen</div>
+                <div class="text-2xl font-bold text-amber-400">2</div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-2 mb-6">
+            <button onclick="switchTab('uebersicht')" id="btn-uebersicht" class="tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-emerald-400 text-gray-900 font-semibold transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                <span>Übersicht</span>
+            </button>
+            <button onclick="switchTab('inventar')" id="btn-inventar" class="tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-card bg-card-hover text-gray-300 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                <span>Inventar</span>
+            </button>
+            <button onclick="switchTab('experimente')" id="btn-experimente" class="tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-card bg-card-hover text-gray-300 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                <span>Experimente</span>
+            </button>
+            <button onclick="switchTab('praeparate')" id="btn-praeparate" class="tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-card bg-card-hover text-gray-300 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span>Präparate</span>
+            </button>
+            <button onclick="switchTab('journal')" id="btn-journal" class="tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-card bg-card-hover text-gray-300 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <span>Journal</span>
+            </button>
+            <button onclick="switchTab('auswertung')" id="btn-auswertung" class="tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-card bg-card-hover text-gray-300 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <span>Auswertung</span>
+            </button>
+        </div>
+
+        <!-- Dynamischer Content Bereich -->
+        <div id="tab-content" class="bg-[#0f1914] border border-custom rounded-xl p-5 mb-4">
+            <!-- Wird per JavaScript befüllt -->
+        </div>
+
+        <!-- Fußzeile -->
+        <div class="text-center text-[10px] text-gray-500 uppercase tracking-widest pt-2 border-t border-custom">
+            MINI BIO LAB · INTERAKTIVER PROTOTYP
+        </div>
+    </div>
+
+    <script>
+        const contentData = {
+            uebersicht: {
+                title: "Dein Labor.",
+                desc: "Deine wissenschaftliche Arbeit, übersichtlich organisiert.",
+                html: `
+                    <div class="mb-4">
+                        <h3 class="text-sm font-semibold text-white mb-2">Dein Laborinventar</h3>
+                        <p class="text-xs text-gray-400 mb-4">Verwalte deine Geräte, Verbrauchsmaterial, Chemikalien und Sicherheitsausrüstung.</p>
+                        <button onclick="switchTab('inventar')" class="w-full bg-[#182b21] hover:bg-[#1f3328] border border-custom text-white text-sm font-medium py-2.5 rounded-lg transition flex items-center justify-center space-x-2">
+                            <span>Inventar öffnen</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-white mb-3">Schnellzugriff</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div onclick="switchTab('inventar')" class="bg-card p-3 rounded-lg border border-custom cursor-pointer bg-card-hover text-xs text-emerald-400 font-medium flex items-center space-x-2"><span>＋ Artikel hinzufügen</span></div>
+                            <div onclick="switchTab('experimente')" class="bg-card p-3 rounded-lg border border-custom cursor-pointer bg-card-hover text-xs text-emerald-400 font-medium flex items-center space-x-2"><span>🔬 Experimente</span></div>
+                            <div onclick="switchTab('praeparate')" class="bg-card p-3 rounded-lg border border-custom cursor-pointer bg-card-hover text-xs text-emerald-400 font-medium flex items-center space-x-2"><span>🧫 Präparate</span></div>
+                            <div onclick="switchTab('journal')" class="bg-card p-3 rounded-lg border border-custom cursor-pointer bg-card-hover text-xs text-emerald-400 font-medium flex items-center space-x-2"><span>📖 Laborjournal</span></div>
+                        </div>
+                    </div>
+                `
+            },
+            inventar: {
+                title: "Laborinventar",
+                desc: "Geräte, Materialien und Bestände an einem Ort.",
+                html: `
+                    <div class="flex space-x-2 mb-4">
+                        <input type="text" placeholder="Objekträger" class="flex-1 bg-[#182b21] border border-custom rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                        <button class="bg-emerald-500 hover:bg-emerald-400 text-gray-900 font-semibold px-4 py-2 rounded-lg text-xs transition">+ Neu</button>
+                    </div>
+                    <div class="mb-4">
+                        <select class="w-full bg-[#182b21] border border-custom rounded-lg px-3 py-2 text-xs text-gray-300 focus:outline-none">
+                            <option>Alle Kategorien</option>
+                        </select>
+                    </div>
+                    <div class="text-center py-10">
+                        <div class="text-emerald-400 mb-2 flex justify-center">📦</div>
+                        <h4 class="text-sm font-semibold text-white mb-1">Keine Artikel gefunden</h4>
+                        <p class="text-xs text-gray-400">Ändere deine Suche oder füge einen neuen Artikel hinzu.</p>
+                    </div>
+                `
+            },
+            experimente: {
+                title: "Experimente",
+                desc: "Dein persönlicher Forschungsbereich.",
+                html: `
+                    <div class="mb-4">
+                        <h3 class="text-sm font-semibold text-white mb-1">Experimentverwaltung</h3>
+                        <p class="text-xs text-gray-400 mb-4">Hier kannst du deine Versuche planen und dokumentieren.</p>
+                        <button onclick="switchTab('journal')" class="w-full bg-[#182b21] hover:bg-[#1f3328] border border-custom text-white text-sm font-medium py-2.5 rounded-lg transition">Zum Laborjournal</button>
+                    </div>
+                `
+            },
+            praeparate: {
+                title: "Präparate",
+                desc: "Dein persönlicher Forschungsbereich.",
+                html: `
+                    <div class="mb-4">
+                        <h3 class="text-sm font-semibold text-white mb-1">Präparate</h3>
+                        <p class="text-xs text-gray-400 mb-4">Katalogisiere deine Objekträger und biologischen Proben.</p>
+                        <button class="w-full bg-[#182b21] hover:bg-[#1f3328] border border-custom text-white text-sm font-medium py-2.5 rounded-lg transition">Objekträger im Inventar suchen</button>
+                    </div>
+                `
+            },
+            journal: {
+                title: "Laborjournal",
+                desc: "Dein persönlicher Forschungsbereich.",
+                html: `
+                    <div class="mb-4">
+                        <h3 class="text-sm font-semibold text-white mb-1">Laborjournal</h3>
+                        <p class="text-xs text-gray-400 mb-4">Dokumentiere Beobachtungen und Ergebnisse deiner Versuche.</p>
+                        <div class="bg-card border border-custom rounded-xl p-4">
+                            <div class="flex items-center space-x-2 text-emerald-400 text-xs font-semibold mb-1"><span>📖 Laborjournal bereit</span></div>
+                            <p class="text-xs text-gray-400">Die vollständige Version enthält Einträge, Bilder und Messwerte.</p>
+                        </div>
+                    </div>
+                `
+            },
+            auswertung: {
+                title: "Auswertung",
+                desc: "Dein persönlicher Forschungsbereich.",
+                html: `
+                    <div>
+                        <h3 class="text-sm font-semibold text-white mb-1">Inventarstatistik</h3>
+                        <p class="text-xs text-gray-400 mb-4">Übersicht deiner aktuellen Bestände.</p>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between py-1 border-b border-custom"><span class="text-gray-300">Geräte</span><span class="text-emerald-400 font-bold">1</span></div>
+                            <div class="flex justify-between py-1 border-b border-custom"><span class="text-gray-300">Verbrauchsmaterial</span><span class="text-emerald-400 font-bold">2</span></div>
+                            <div class="flex justify-between py-1 border-b border-custom"><span class="text-gray-300">Chemikalien</span><span class="text-emerald-400 font-bold">1</span></div>
+                            <div class="flex justify-between py-1 border-b border-custom"><span class="text-gray-300">Sicherheit</span><span class="text-emerald-400 font-bold">1</span></div>
+                            <div class="flex justify-between py-1"><span class="text-gray-300">Sonstiges</span><span class="text-emerald-400 font-bold">0</span></div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function switchTab(tabId) {
+            // Buttons aktualisieren
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-card bg-card-hover text-gray-300 transition";
+            });
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if(activeBtn) {
+                activeBtn.className = "tab-btn p-3 rounded-xl border border-custom text-xs font-medium flex flex-col items-center justify-center space-y-1 bg-emerald-400 text-gray-900 font-semibold transition";
+            }
+
+            // Inhalte aktualisieren
+            document.getElementById('view-title').innerText = contentData[tabId].title;
+            document.getElementById('view-desc').innerText = contentData[tabId].desc;
+            document.getElementById('tab-content').innerHTML = contentData[tabId].html;
+        }
+
+        // Initiale Ansicht laden
+        switchTab('uebersicht');
+    </script>
+</body>
+</html>
