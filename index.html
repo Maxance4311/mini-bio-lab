@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINI BIO LAB — Personal Biology Laboratory</title>
+    
+    <!-- App Icons / Favicon für Web & Smartphone Home-Bildschirm -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23101412'/><circle cx='50' cy='50' r='42' fill='none' stroke='%2365E6B1' stroke-width='3'/><path d='M38 28 L62 28 L57 62 L43 62 Z' fill='%2365E6B1'/><circle cx='50' cy='48' r='9' fill='%2343C9C0'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23101412'/><circle cx='50' cy='50' r='40' fill='none' stroke='%2365E6B1' stroke-width='4'/><path d='M38 28 L62 28 L57 62 L43 62 Z' fill='%2365E6B1'/><circle cx='50' cy='48' r='9' fill='%2343C9C0'/></svg>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MINI BIO LAB">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        lab: {
+                            bg: '#101412',
+                            sidebar: '#141A16',
+                            card: '#19211D',
+                            cardHover: '#202B25',
+                            activeNav: '#26362D',
+                            border: '#2B3931',
+                            primary: '#65E6B1',
+                            secondary: '#43C9C0',
+                            textMain: '#F2F5F3',
+                            textSec: '#9AA9A0',
+                            textMuted: '#718077',
+                            warning: '#F2B86C',
+                            error: '#FF7777',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #101412;
+            color: #F2F5F3;
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #141A16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2B3931;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #65E6B1;
+        }
+    </style>
+</head>
+<body class="bg-[#101412] text-[#F2F5F3] min-h-screen flex flex-col md:flex-row antialiased selection:bg-[#65E6B1] selection:text-[#101412]">
+
+    <!-- SVG Logo Template -->
+    <svg id="app-logo-svg" class="hidden">
+        <defs>
+            <linearGradient id="mintGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#65E6B1" />
+                <stop offset="100%" stop-color="#43C9C0" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- Mobile Header -->
+    <header class="md:hidden flex items-center justify-between px-4 py-3 bg-[#141A16] border-b border-[#2B3931] sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full border border-[#65E6B1]/40 flex items-center justify-center bg-[#101412] shrink-0 p-1">
+                <!-- Exact Original Logo Emblem SVG -->
+                <svg viewBox="0 0 200 200" class="w-full h-full">
+                    <circle cx="100" cy="100" r="92" fill="none" stroke="url(#mintGrad)" stroke-width="6"/>
+                    <!-- Microscope Body -->
+                    <path d="M75 50 L110 90 L85 105 L50 65 Z" fill="url(#mintGrad)"/>
+                    <circle cx="82" cy="78" r="10" fill="#101412" stroke="url(#mintGrad)" stroke-width="4"/>
+                    <path d="M60 115 C 60 85, 100 85, 100 115 L125 115 L125 130 L50 130 Z" fill="url(#mintGrad)"/>
+                    <rect x="70" y="100" width="40" height="7" rx="3" fill="#65E6B1"/>
+                    <rect x="55" y="130" width="70" height="10" rx="4" fill="url(#mintGrad)"/>
+                    <!-- Molecule Symbol -->
+                    <circle cx="140" cy="55" r="7" fill="#65E6B1"/>
+                    <circle cx="160" cy="40" r="5" fill="#65E6B1"/>
+                    <circle cx="165" cy="65" r="5" fill="#65E6B1"/>
+                    <line x1="140" y1="55" x2="160" y2="40" stroke="#65E6B1" stroke-width="3"/>
+                    <line x1="140" y1="55" x2="165" y2="65" stroke="#65E6B1" stroke-width="3"/>
+                    <!-- Leaves -->
+                    <path d="M125 130 Q160 80 165 55 Q135 85 125 130" fill="url(#mintGrad)"/>
+                    <path d="M135 130 Q165 105 168 85 Q145 105 135 130" fill="#65E6B1"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-bold text-sm tracking-wide text-white">MINI <span class="text-[#65E6B1]">BIO</span> LAB</h1>
+                <p class="text-[9px] tracking-widest text-[#9AA9A0] uppercase">PERSONAL LAB</p>
+            </div>
+        </div>
+        <button id="mobile-menu-btn" class="p-2 text-[#9AA9A0] hover:text-[#65E6B1] focus:outline-none">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+    </header>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden"></div>
+
+    <!-- Sidebar / Navigation -->
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#141A16] border-r border-[#2B3931] flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+        <div class="p-5 border-b border-[#2B3931] flex items-center space-x-3">
+            <div class="w-11 h-11 rounded-full border border-[#65E6B1]/50 flex items-center justify-center bg-[#101412] shrink-0 p-1 shadow-lg shadow-[#65E6B1]/10">
+                <!-- Exact Original Logo Emblem SVG -->
+                <svg viewBox="0 0 200 200" class="w-full h-full">
+                    <circle cx="100" cy="100" r="92" fill="none" stroke="url(#mintGrad)" stroke-width="6"/>
+                    <!-- Microscope Body -->
+                    <path d="M75 50 L110 90 L85 105 L50 65 Z" fill="url(#mintGrad)"/>
+                    <circle cx="82" cy="78" r="10" fill="#101412" stroke="url(#mintGrad)" stroke-width="4"/>
+                    <path d="M60 115 C 60 85, 100 85, 100 115 L125 115 L125 130 L50 130 Z" fill="url(#mintGrad)"/>
+                    <rect x="70" y="100" width="40" height="7" rx="3" fill="#65E6B1"/>
+                    <rect x="55" y="130" width="70" height="10" rx="4" fill="url(#mintGrad)"/>
+                    <!-- Molecule Symbol -->
+                    <circle cx="140" cy="55" r="7" fill="#65E6B1"/>
+                    <circle cx="160" cy="40" r="5" fill="#65E6B1"/>
+                    <circle cx="165" cy="65" r="5" fill="#65E6B1"/>
+                    <line x1="140" y1="55" x2="160" y2="40" stroke="#65E6B1" stroke-width="3"/>
+                    <line x1="140" y1="55" x2="165" y2="65" stroke="#65E6B1" stroke-width="3"/>
+                    <!-- Leaves -->
+                    <path d="M125 130 Q160 80 165 55 Q135 85 125 130" fill="url(#mintGrad)"/>
+                    <path d="M135 130 Q165 105 168 85 Q145 105 135 130" fill="#65E6B1"/>
+                </svg>
+            </div>
+            <div>
+                <h2 class="font-bold text-base tracking-wider text-white">MINI <span class="text-[#65E6B1]">BIO</span> LAB</h2>
+                <p class="text-[10px] tracking-[0.18em] text-[#9AA9A0] uppercase font-light">PERSONAL BIOLOGY LABORATORY</p>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            <a href="#" data-page="overview" class="nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors bg-[#26362D] text-[#65E6B1]">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3 text-[#65E6B1]"></i>
+                Overview
+            </a>
+            <a href="#" data-page="inventory" class="nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-[#9AA9A0] hover:bg-[#19211D] hover:text-[#F2F5F3]">
+                <i data-lucide="package" class="w-5 h-5 mr-3"></i>
+                Inventory
+            </a>
+            <a href="#" data-page="experiments" class="nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-[#9AA9A0] hover:bg-[#19211D] hover:text-[#F2F5F3]">
+                <i data-lucide="flask-conical" class="w-5 h-5 mr-3"></i>
+                Experiments
+            </a>
+            <a href="#" data-page="samples" class="nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-[#9AA9A0] hover:bg-[#19211D] hover:text-[#F2F5F3]">
+                <i data-lucide="microscope" class="w-5 h-5 mr-3"></i>
+                Samples & Slides
+            </a>
+            <a href="#" data-page="journal" class="nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-[#9AA9A0] hover:bg-[#19211D] hover:text-[#F2F5F3]">
+                <i data-lucide="book-open" class="w-5 h-5 mr-3"></i>
+                Journal
+            </a>
+            <a href="#" data-page="statistics" class="nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-[#9AA9A0] hover:bg-[#19211D] hover:text-[#F2F5F3]">
+                <i data-lucide="chart-no-axes-combined" class="w-5 h-5 mr-3"></i>
+                Statistics
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-[#2B3931] text-xs text-[#718077] flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-[#65E6B1] animate-pulse"></span>
+                <span>System Online</span>
+            </div>
+            <span class="text-[10px] bg-[#19211D] px-2 py-0.5 rounded border border-[#2B3931] text-[#9AA9A0]">v1.0.0</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto max-w-[1440px] mx-auto w-full p-4 md:p-8">
+        <div id="app-container" class="flex-1 flex flex-col"></div>
+    </main>
+
+    <!-- Global Modal Container -->
+    <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden p-4">
+        <div id="modal-content" class="bg-[#141A16] border border-[#2B3931] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative"></div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <script>
+        const DEFAULT_DATA = {
+            inventory: [
+                { id: 'inv-1', name: 'Microscope Precision Optic', category: 'Equipment', quantity: 1, unit: 'piece', storageLocation: 'Desk Shelf A', minimumStock: 1, notes: 'Main 40x-1000x compound microscope.', createdAt: '2026-01-10T10:00:00Z', updatedAt: '2026-03-01T12:00:00Z' },
+                { id: 'inv-2', name: 'Glass Slides & Cover Slips', category: 'Glassware', quantity: 8, unit: 'pieces', storageLocation: 'Drawer 2', minimumStock: 10, notes: 'Standard 76x26mm microscope slides.', createdAt: '2026-01-12T11:00:00Z', updatedAt: '2026-03-10T14:30:00Z' },
+                { id: 'inv-3', name: 'Methylene Blue Stain (1%)', category: 'Reagents', quantity: 50, unit: 'ml', storageLocation: 'Cabinet B', minimumStock: 20, notes: 'Vital stain for animal & plant cell nuclei.', createdAt: '2026-01-15T09:00:00Z', updatedAt: '2026-03-05T16:00:00Z' },
+                { id: 'inv-4', name: 'Petri Dishes (Sterile)', category: 'Consumables', quantity: 25, unit: 'pieces', storageLocation: 'Cabinet A', minimumStock: 15, notes: '90mm polystyrene culture dishes.', createdAt: '2026-01-20T14:00:00Z', updatedAt: '2026-02-18T10:00:00Z' },
+                { id: 'inv-5', name: 'Safety Goggles & Gloves', category: 'Safety', quantity: 4, unit: 'pairs', storageLocation: 'Safety Hook', minimumStock: 2, notes: 'Personal protective equipment.', createdAt: '2026-01-05T08:00:00Z', updatedAt: '2026-01-05T08:00:00Z' }
+            ],
+            experiments: [
+                {
+                    id: 'exp-1',
+                    title: 'Onion Epidermal Cell Plasmolysis',
+                    category: 'Cytology',
+                    date: '2026-03-02',
+                    status: 'Completed',
+                    researchQuestion: 'How does high salinity concentration affect plant cell turgor pressure?',
+                    hypothesis: 'Hypertonic saline solution will cause water to exit vacuole, resulting in observable plasmolysis.',
+                    materials: 'Red onion, 10% NaCl solution, glass slides, microscope, dropper.',
+                    method: '1. Peel thin purple epidermal layer from red onion.\n2. Mount in distilled water and observe under 400x.\n3. Add 3 drops of 10% NaCl under coverslip.',
+                    observations: 'Cell membrane clearly shrank away from the rigid cellulose cell wall within 150 seconds.',
+                    results: 'Plasmolysis confirmed in 92% of observed epidermal cells.',
+                    conclusion: 'Plant cells act as osmometers under hypertonic stress.',
+                    notes: 'Excellent clarity achieved.',
+                    relatedSampleIds: ['samp-1'],
+                    relatedInventoryIds: ['inv-1', 'inv-2', 'inv-3']
+                },
+                {
+                    id: 'exp-2',
+                    title: 'Yeast Fermentation Rate Analysis',
+                    category: 'Microbiology',
+                    date: '2026-03-12',
+                    status: 'In Progress',
+                    researchQuestion: 'What is the optimal temperature for Saccharomyces cerevisiae CO2 production?',
+                    hypothesis: 'Fermentation rate peaks around 35°C-38°C.',
+                    materials: 'Active dry yeast, glucose, warm water bath, graduated fermentation tubes.',
+                    method: 'Prepare 5 test tubes with 5% glucose and 1g yeast at varying temperatures.',
+                    observations: 'Tube at 37°C shows rapid bubbling after 15 minutes.',
+                    results: 'Ongoing data collection.',
+                    conclusion: 'Pending final analysis.',
+                    notes: 'Keep accurate timer.',
+                    relatedSampleIds: ['samp-3'],
+                    relatedInventoryIds: ['inv-4']
+                }
+            ],
+            samples: [
+                {
+                    id: 'samp-1',
+                    name: 'Allium cepa Epidermis',
+                    type: 'Plant',
+                    date: '2026-03-02',
+                    origin: 'Red onion fleshy scale inner epidermis',
+                    storageLocation: 'Slide Box A - Slot 4',
+                    status: 'Stored',
+                    relatedExperimentId: 'exp-1',
+                    notes: 'Stained with Methylene Blue.',
+                    photoReference: ''
+                },
+                {
+                    id: 'samp-2',
+                    name: 'Solanum tuberosum Amyloplasts',
+                    type: 'Plant',
+                    date: '2026-03-05',
+                    origin: 'Fresh potato tuber core',
+                    storageLocation: 'Slide Box A - Slot 7',
+                    status: 'Stored',
+                    relatedExperimentId: '',
+                    notes: 'Contains prominent leucoplast starch granules.',
+                    photoReference: ''
+                }
+            ],
+            journal: [
+                {
+                    id: 'jour-1',
+                    title: 'Successful Plasmolysis Documentation',
+                    date: '2026-03-02',
+                    tag: 'Observation',
+                    relatedExperimentId: 'exp-1',
+                    relatedSampleId: 'samp-1',
+                    body: 'Today completed the onion epidermal cell plasmolysis experiment. Using 10% NaCl created immediate and striking retraction of the plasma membrane.',
+                    photoReference: ''
+                },
+                {
+                    id: 'jour-2',
+                    title: 'Low Stock Alert: Glass Slides',
+                    date: '2026-03-10',
+                    tag: 'Maintenance',
+                    relatedExperimentId: '',
+                    relatedSampleId: '',
+                    body: 'Checked inventory and noticed glass slides are down to 8 pieces remaining. Need to order a replacement box.',
+                    photoReference: ''
+                }
+            ],
+            activities: [
+                { id: 'act-1', description: 'Journal entry saved: "Successful Plasmolysis Documentation"', timestamp: '2026-03-02 16:45', relatedEntityType: 'journal', relatedEntityId: 'jour-1' },
+                { id: 'act-2', description: 'Experiment completed: "Onion Epidermal Cell Plasmolysis"', timestamp: '2026-03-02 16:30', relatedEntityType: 'experiment', relatedEntityId: 'exp-1' }
+            ]
+        };
+
+        let db = JSON.parse(localStorage.getItem('minibiolab_db')) || DEFAULT_DATA;
+        function saveDB() {
+            localStorage.setItem('minibiolab_db', JSON.stringify(db));
+        }
+
+        let currentPage = 'overview';
+        let inventoryFilterCat = 'All';
+        let inventorySearchQuery = '';
+        let sampleFilterType = 'All';
+        let sampleSearchQuery = '';
+        let journalFilterTag = 'All';
+        let journalSearchQuery = '';
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-lg text-sm flex items-center space-x-3 transition-all duration-300 transform translate-y-2 opacity-0 ${
+                type === 'success' ? 'bg-[#19211D] border-[#65E6B1]/40 text-[#F2F5F3]' : type === 'warning' ? 'bg-[#19211D] border-[#F2B86C]/40 text-[#F2B86C]' : 'bg-[#19211D] border-[#FF7777]/40 text-[#FF7777]'
+            }`;
+            const iconName = type === 'success' ? 'check-circle' : type === 'warning' ? 'alert-triangle' : 'x-circle';
+            const iconColor = type === 'success' ? 'text-[#65E6B1]' : type === 'warning' ? 'text-[#F2B86C]' : 'text-[#FF7777]';
+            toast.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5 ${iconColor} shrink-0"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function logActivity(description, type, id) {
+            const now = new Date();
+            const timestamp = now.toISOString().slice(0, 16).replace('T', ' ');
+            db.activities.unshift({ id: 'act-' + Date.now(), description, timestamp, relatedEntityType: type, relatedEntityId: id });
+            if (db.activities.length > 20) db.activities.pop();
+            saveDB();
+        }
+
+        function navigateTo(page) {
+            currentPage = page;
+            document.querySelectorAll('.nav-link').forEach(el => {
+                if (el.dataset.page === page) {
+                    el.className = 'nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors bg-[#26362D] text-[#65E6B1]';
+                } else {
+                    el.className = 'nav-link flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-[#9AA9A0] hover:bg-[#19211D] hover:text-[#F2F5F3]';
+                }
+            });
+            renderPage();
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('sidebar-overlay').classList.add('hidden');
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo(link.dataset.page);
+            });
+        });
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('sidebar-overlay').classList.toggle('hidden');
+        });
+
+        document.getElementById('sidebar-overlay').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('sidebar-overlay').classList.add('hidden');
+        });
+
+        function renderPage() {
+            const container = document.getElementById('app-container');
+            container.innerHTML = '';
+            switch(currentPage) {
+                case 'overview': renderOverview(container); break;
+                case 'inventory': renderInventory(container); break;
+                case 'experiments': renderExperiments(container); break;
+                case 'samples': renderSamples(container); break;
+                case 'journal': renderJournal(container); break;
+                case 'statistics': renderStatistics(container); break;
+                default: renderOverview(container);
+            }
+            lucide.createIcons();
+        }
+
+        function renderOverview(container) {
+            const totalInventory = db.inventory.reduce((sum, item) => sum + item.quantity, 0);
+            const totalExperiments = db.experiments.length;
+            const totalSamples = db.samples.length;
+            const totalJournal = db.journal.length;
+            const lowStockItems = db.inventory.filter(item => item.quantity <= item.minimumStock);
+
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#2B3931] gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Overview</h1>
+                        <p class="text-[#9AA9A0] text-sm mt-1">Your laboratory at a glance.</p>
+                    </div>
+                    <div>
+                        <button onclick="openQuickEntryModal()" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#65E6B1] text-[#101412] font-semibold text-sm hover:bg-[#43C9C0] transition-colors shadow-lg shadow-[#65E6B1]/10">
+                            <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Quick Entry
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div onclick="navigateTo('inventory')" class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5 hover:border-[#65E6B1]/50 transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider">Inventory Items</span>
+                            <div class="p-2 rounded-xl bg-[#141A16] text-[#65E6B1] group-hover:bg-[#26362D] transition-colors"><i data-lucide="package" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="text-3xl font-bold text-white">${db.inventory.length} <span class="text-xs text-[#718077] font-normal">types (${totalInventory} units)</span></div>
+                    </div>
+                    <div onclick="navigateTo('experiments')" class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5 hover:border-[#65E6B1]/50 transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider">Experiments</span>
+                            <div class="p-2 rounded-xl bg-[#141A16] text-[#65E6B1] group-hover:bg-[#26362D] transition-colors"><i data-lucide="flask-conical" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="text-3xl font-bold text-white">${totalExperiments}</div>
+                    </div>
+                    <div onclick="navigateTo('samples')" class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5 hover:border-[#65E6B1]/50 transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider">Samples & Slides</span>
+                            <div class="p-2 rounded-xl bg-[#141A16] text-[#65E6B1] group-hover:bg-[#26362D] transition-colors"><i data-lucide="microscope" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="text-3xl font-bold text-white">${totalSamples}</div>
+                    </div>
+                    <div onclick="navigateTo('journal')" class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5 hover:border-[#65E6B1]/50 transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider">Journal Entries</span>
+                            <div class="p-2 rounded-xl bg-[#141A16] text-[#65E6B1] group-hover:bg-[#26362D] transition-colors"><i data-lucide="book-open" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="text-3xl font-bold text-white">${totalJournal}</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6 lg:col-span-2 flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-lg font-semibold text-white mb-4 flex items-center"><i data-lucide="zap" class="w-5 h-5 mr-2 text-[#65E6B1]"></i> Quick Actions</h2>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <button onclick="openInventoryModal()" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] hover:bg-[#202B25] transition-all text-center flex flex-col items-center justify-center group">
+                                    <div class="w-10 h-10 rounded-full bg-[#26362D] flex items-center justify-center text-[#65E6B1] mb-2 group-hover:scale-110 transition-transform"><i data-lucide="package-plus" class="w-5 h-5"></i></div>
+                                    <span class="text-xs font-medium text-[#F2F5F3]">Add Inventory</span>
+                                </button>
+                                <button onclick="openExperimentModal()" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] hover:bg-[#202B25] transition-all text-center flex flex-col items-center justify-center group">
+                                    <div class="w-10 h-10 rounded-full bg-[#26362D] flex items-center justify-center text-[#65E6B1] mb-2 group-hover:scale-110 transition-transform"><i data-lucide="flask-conical" class="w-5 h-5"></i></div>
+                                    <span class="text-xs font-medium text-[#F2F5F3]">New Experiment</span>
+                                </button>
+                                <button onclick="openSampleModal()" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] hover:bg-[#202B25] transition-all text-center flex flex-col items-center justify-center group">
+                                    <div class="w-10 h-10 rounded-full bg-[#26362D] flex items-center justify-center text-[#65E6B1] mb-2 group-hover:scale-110 transition-transform"><i data-lucide="layers" class="w-5 h-5"></i></div>
+                                    <span class="text-xs font-medium text-[#F2F5F3]">Add Sample</span>
+                                </button>
+                                <button onclick="openJournalModal()" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] hover:bg-[#202B25] transition-all text-center flex flex-col items-center justify-center group">
+                                    <div class="w-10 h-10 rounded-full bg-[#26362D] flex items-center justify-center text-[#65E6B1] mb-2 group-hover:scale-110 transition-transform"><i data-lucide="notebook-pen" class="w-5 h-5"></i></div>
+                                    <span class="text-xs font-medium text-[#F2F5F3]">Journal Entry</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-lg font-semibold text-white mb-4 flex items-center"><i data-lucide="alert-triangle" class="w-5 h-5 mr-2 text-[#F2B86C]"></i> Inventory Alerts</h2>
+                            ${lowStockItems.length > 0 ? `
+                                <div class="space-y-3">
+                                    ${lowStockItems.map(item => `
+                                        <div class="p-3 rounded-xl bg-[#141A16] border border-[#F2B86C]/30 flex items-start justify-between">
+                                            <div>
+                                                <div class="text-sm font-semibold text-white">${item.name}</div>
+                                                <div class="text-xs text-[#F2B86C] mt-0.5">Low stock — ${item.quantity} ${item.unit} remaining · Minimum stock: ${item.minimumStock} ${item.unit}</div>
+                                            </div>
+                                            <button onclick="openEditInventoryModal('${item.id}')" class="text-xs text-[#65E6B1] hover:underline shrink-0 ml-2">Restock</button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : `
+                                <div class="flex flex-col items-center justify-center py-6 text-center">
+                                    <div class="w-12 h-12 rounded-full bg-[#141A16] border border-[#2B3931] flex items-center justify-center text-[#65E6B1] mb-3"><i data-lucide="check-circle-2" class="w-6 h-6"></i></div>
+                                    <p class="text-sm font-medium text-[#F2F5F3]">All inventory levels look good.</p>
+                                    <p class="text-xs text-[#718077] mt-1">No items are currently below minimum stock threshold.</p>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6">
+                    <h2 class="text-lg font-semibold text-white mb-4 flex items-center"><i data-lucide="activity" class="w-5 h-5 mr-2 text-[#65E6B1]"></i> Recent Activity</h2>
+                    ${db.activities.length > 0 ? `
+                        <div class="space-y-3">
+                            ${db.activities.slice(0, 5).map(act => `
+                                <div class="flex items-center space-x-3 p-3 rounded-xl bg-[#141A16] border border-[#2B3931]">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#65E6B1] shrink-0"></span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm text-[#F2F5F3] truncate">${act.description}</p>
+                                        <p class="text-xs text-[#718077] mt-0.5">${act.timestamp}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `<p class="text-sm text-[#718077] text-center py-6">No recent activity recorded yet.</p>`}
+                </div>
+            `;
+        }
+
+        function renderInventory(container) {
+            const totalItemsCount = db.inventory.length;
+            const uniqueCategories = [...new Set(db.inventory.map(i => i.category))].length;
+            const lowStockCount = db.inventory.filter(i => i.quantity <= i.minimumStock).length;
+            const uniqueLocations = [...new Set(db.inventory.map(i => i.storageLocation))].length;
+
+            const filteredInventory = db.inventory.filter(item => {
+                const matchesCat = inventoryFilterCat === 'All' || item.category === inventoryFilterCat;
+                const query = inventorySearchQuery.toLowerCase();
+                const matchesQuery = item.name.toLowerCase().includes(query) || item.category.toLowerCase().includes(query) || item.storageLocation.toLowerCase().includes(query) || item.notes.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#2B3931] gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Inventory</h1>
+                        <p class="text-[#9AA9A0] text-sm mt-1">Track equipment, supplies and stock levels.</p>
+                    </div>
+                    <div>
+                        <button onclick="openInventoryModal()" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#65E6B1] text-[#101412] font-semibold text-sm hover:bg-[#43C9C0] transition-colors shadow-lg shadow-[#65E6B1]/10">
+                            <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Add Item
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Total Items</span>
+                        <div class="text-3xl font-bold text-white">${totalItemsCount}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Categories</span>
+                        <div class="text-3xl font-bold text-white">${uniqueCategories}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Low Stock</span>
+                        <div class="text-3xl font-bold ${lowStockCount > 0 ? 'text-[#F2B86C]' : 'text-white'}">${lowStockCount}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Unique Locations</span>
+                        <div class="text-3xl font-bold text-white">${uniqueLocations}</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <div class="relative flex-1">
+                        <i data-lucide="search" class="absolute left-3.5 top-3.5 w-5 h-5 text-[#718077]"></i>
+                        <input type="text" id="inventory-search" value="${inventorySearchQuery}" oninput="handleInventorySearch(this.value)" placeholder="Search inventory..." class="w-full bg-[#19211D] border border-[#2B3931] rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-[#718077] focus:outline-none focus:border-[#65E6B1] transition-colors">
+                    </div>
+                    <div class="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0">
+                        ${['All', 'Equipment', 'Glassware', 'Consumables', 'Reagents', 'Safety', 'Other'].map(cat => `
+                            <button onclick="setInventoryCategory('${cat}')" class="px-4 py-2.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${inventoryFilterCat === cat ? 'bg-[#65E6B1] text-[#101412] font-semibold' : 'bg-[#19211D] border border-[#2B3931] text-[#9AA9A0] hover:text-white'}">
+                                ${cat}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    ${filteredInventory.length > 0 ? filteredInventory.map(item => {
+                        const isLow = item.quantity <= item.minimumStock;
+                        return `
+                            <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#65E6B1]/40 transition-all">
+                                <div class="space-y-1">
+                                    <div class="flex items-center space-x-3">
+                                        <h3 class="font-semibold text-white text-base">${item.name}</h3>
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium ${isLow ? 'bg-[#F2B86C]/10 text-[#F2B86C] border border-[#F2B86C]/30' : 'bg-[#65E6B1]/10 text-[#65E6B1] border border-[#65E6B1]/30'}">
+                                            ${isLow ? 'Low stock' : 'In stock'}
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-[#9AA9A0] flex items-center space-x-2">
+                                        <span class="text-white font-medium">${item.category}</span>
+                                        <span>·</span>
+                                        <span>${item.quantity}${item.unit}</span>
+                                        <span>·</span>
+                                        <span>📍 ${item.storageLocation}</span>
+                                    </p>
+                                    ${item.notes ? `<p class="text-xs text-[#718077] pt-1">${item.notes}</p>` : ''}
+                                </div>
+                                <div class="flex items-center justify-between md:justify-end space-x-3 pt-3 md:pt-0 border-t md:border-t-0 border-[#2B3931]">
+                                    <div class="flex items-center space-x-1 bg-[#141A16] border border-[#2B3931] rounded-xl p-1">
+                                        <button onclick="adjustInventoryQty('${item.id}', -1)" class="w-7 h-7 rounded-lg flex items-center justify-center text-[#9AA9A0] hover:bg-[#202B25] hover:text-white transition-colors"><i data-lucide="minus" class="w-3.5 h-3.5"></i></button>
+                                        <span class="px-3 text-xs font-medium text-white">${item.quantity}</span>
+                                        <button onclick="adjustInventoryQty('${item.id}', 1)" class="w-7 h-7 rounded-lg flex items-center justify-center text-[#9AA9A0] hover:bg-[#202B25] hover:text-white transition-colors"><i data-lucide="plus" class="w-3.5 h-3.5"></i></button>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="openViewInventoryModal('${item.id}')" class="px-3 py-1.5 rounded-xl bg-[#141A16] border border-[#2B3931] text-xs font-medium text-white hover:bg-[#202B25] transition-colors">Open</button>
+                                        <button onclick="openEditInventoryModal('${item.id}')" class="px-3 py-1.5 rounded-xl bg-[#141A16] border border-[#2B3931] text-xs font-medium text-[#65E6B1] hover:bg-[#202B25] transition-colors">Edit</button>
+                                        <button onclick="deleteInventoryItem('${item.id}')" class="px-3 py-1.5 rounded-xl bg-[#141A16] border border-[#2B3931] text-xs font-medium text-[#FF7777] hover:bg-[#FF7777]/10 transition-colors">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('') : `
+                        <div class="text-center py-12 bg-[#19211D] border border-[#2B3931] rounded-2xl">
+                            <i data-lucide="package-search" class="w-12 h-12 text-[#718077] mx-auto mb-3"></i>
+                            <p class="text-sm font-medium text-[#F2F5F3]">No inventory items found.</p>
+                            <p class="text-xs text-[#718077] mt-1">Try adjusting your search query or category filter.</p>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function setInventoryCategory(cat) {
+            inventoryFilterCat = cat;
+            renderPage();
+        }
+
+        function handleInventorySearch(val) {
+            inventorySearchQuery = val;
+            renderPage();
+            const input = document.getElementById('inventory-search');
+            if(input) {
+                input.focus();
+                input.setSelectionRange(input.value.length, input.value.length);
+            }
+        }
+
+        function adjustInventoryQty(id, delta) {
+            const item = db.inventory.find(i => i.id === id);
+            if (item) {
+                item.quantity = Math.max(0, item.quantity + delta);
+                item.updatedAt = new Date().toISOString();
+                saveDB();
+                logActivity(`Inventory quantity updated: ${item.name} (${item.quantity} ${item.unit} remaining)`, 'inventory', item.id);
+                showToast(`Updated quantity for ${item.name}`);
+                renderPage();
+            }
+        }
+
+        function deleteInventoryItem(id) {
+            const item = db.inventory.find(i => i.id === id);
+            if (!item) return;
+            openConfirmModal(`Delete “${item.name}”?`, 'This action cannot be undone.', () => {
+                db.inventory = db.inventory.filter(i => i.id !== id);
+                saveDB();
+                logActivity(`Inventory item deleted: ${item.name}`, 'inventory', id);
+                showToast(`Deleted ${item.name}`, 'error');
+                renderPage();
+            });
+        }
+
+        function renderExperiments(container) {
+            const totalExp = db.experiments.length;
+            const inProgressExp = db.experiments.filter(e => e.status === 'In Progress').length;
+            const completedExp = db.experiments.filter(e => e.status === 'Completed').length;
+            const plannedExp = db.experiments.filter(e => e.status === 'Planned').length;
+
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#2B3931] gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Experiments</h1>
+                        <p class="text-[#9AA9A0] text-sm mt-1">Plan, document and review your research.</p>
+                    </div>
+                    <div>
+                        <button onclick="openExperimentModal()" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#65E6B1] text-[#101412] font-semibold text-sm hover:bg-[#43C9C0] transition-colors shadow-lg shadow-[#65E6B1]/10">
+                            <i data-lucide="plus" class="w-4 h-4 mr-2"></i> New Experiment
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">All Experiments</span>
+                        <div class="text-3xl font-bold text-white">${totalExp}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">In Progress</span>
+                        <div class="text-3xl font-bold text-[#F2B86C]">${inProgressExp}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Completed</span>
+                        <div class="text-3xl font-bold text-[#65E6B1]">${completedExp}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Planned</span>
+                        <div class="text-3xl font-bold text-[#43C9C0]">${plannedExp}</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${db.experiments.map(exp => {
+                        const statusColor = exp.status === 'Completed' ? 'bg-[#65E6B1]/10 text-[#65E6B1] border-[#65E6B1]/30' : exp.status === 'In Progress' ? 'bg-[#F2B86C]/10 text-[#F2B86C] border-[#F2B86C]/30' : 'bg-[#43C9C0]/10 text-[#43C9C0] border-[#43C9C0]/30';
+                        return `
+                            <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6 flex flex-col justify-between hover:border-[#65E6B1]/40 transition-all">
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${statusColor}">${exp.status}</span>
+                                        <span class="text-xs text-[#718077]">${exp.date}</span>
+                                    </div>
+                                    <h3 class="text-base font-semibold text-white mb-1">${exp.title}</h3>
+                                    <p class="text-xs text-[#65E6B1] font-medium mb-3">${exp.category}</p>
+                                    <p class="text-xs text-[#9AA9A0] line-clamp-3 mb-4">${exp.researchQuestion || exp.hypothesis || 'No description provided.'}</p>
+                                </div>
+                                <div class="pt-4 border-t border-[#2B3931] flex items-center justify-between">
+                                    <button onclick="openViewExperimentModal('${exp.id}')" class="text-xs font-semibold text-[#65E6B1] hover:underline">View Details →</button>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="openEditExperimentModal('${exp.id}')" class="p-1.5 rounded-lg bg-[#141A16] border border-[#2B3931] text-[#9AA9A0] hover:text-white transition-colors" title="Edit"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
+                                        <button onclick="deleteExperiment('${exp.id}')" class="p-1.5 rounded-lg bg-[#141A16] border border-[#2B3931] text-[#FF7777] hover:bg-[#FF7777]/10 transition-colors" title="Delete"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function deleteExperiment(id) {
+            const exp = db.experiments.find(e => e.id === id);
+            if (!exp) return;
+            openConfirmModal(`Delete “${exp.title}”?`, 'This action cannot be undone.', () => {
+                db.experiments = db.experiments.filter(e => e.id !== id);
+                saveDB();
+                logActivity(`Experiment deleted: ${exp.title}`, 'experiment', id);
+                showToast(`Deleted experiment ${exp.title}`, 'error');
+                renderPage();
+            });
+        }
+
+        function renderSamples(container) {
+            const filteredSamples = db.samples.filter(samp => {
+                const matchesType = sampleFilterType === 'All' || samp.type === sampleFilterType;
+                const query = sampleSearchQuery.toLowerCase();
+                const matchesQuery = samp.name.toLowerCase().includes(query) || samp.type.toLowerCase().includes(query) || samp.origin.toLowerCase().includes(query) || samp.storageLocation.toLowerCase().includes(query) || samp.notes.toLowerCase().includes(query);
+                return matchesType && matchesQuery;
+            });
+
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#2B3931] gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Samples & Slides</h1>
+                        <p class="text-[#9AA9A0] text-sm mt-1">Catalog your samples and microscope slides.</p>
+                    </div>
+                    <div>
+                        <button onclick="openSampleModal()" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#65E6B1] text-[#101412] font-semibold text-sm hover:bg-[#43C9C0] transition-colors shadow-lg shadow-[#65E6B1]/10">
+                            <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Add Sample
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <div class="relative flex-1">
+                        <i data-lucide="search" class="absolute left-3.5 top-3.5 w-5 h-5 text-[#718077]"></i>
+                        <input type="text" id="sample-search" value="${sampleSearchQuery}" oninput="handleSampleSearch(this.value)" placeholder="Search samples..." class="w-full bg-[#19211D] border border-[#2B3931] rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-[#718077] focus:outline-none focus:border-[#65E6B1] transition-colors">
+                    </div>
+                    <div class="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0">
+                        ${['All', 'Plant', 'Prepared Slide', 'Food Sample', 'Water Sample', 'Other'].map(type => `
+                            <button onclick="setSampleType('${type}')" class="px-4 py-2.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${sampleFilterType === type ? 'bg-[#65E6B1] text-[#101412] font-semibold' : 'bg-[#19211D] border border-[#2B3931] text-[#9AA9A0] hover:text-white'}">
+                                ${type}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${filteredSamples.length > 0 ? filteredSamples.map(samp => {
+                        const statusColor = samp.status === 'Stored' ? 'bg-[#65E6B1]/10 text-[#65E6B1] border-[#65E6B1]/30' : samp.status === 'In Use' ? 'bg-[#F2B86C]/10 text-[#F2B86C] border-[#F2B86C]/30' : 'bg-[#718077]/10 text-[#718077] border-[#718077]/30';
+                        return `
+                            <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6 flex flex-col justify-between hover:border-[#65E6B1]/40 transition-all">
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${statusColor}">${samp.status}</span>
+                                        <span class="text-xs text-[#718077]">${samp.date}</span>
+                                    </div>
+                                    <h3 class="text-base font-semibold text-white mb-1">${samp.name}</h3>
+                                    <p class="text-xs text-[#65E6B1] font-medium mb-3">${samp.type} · 📍 ${samp.storageLocation}</p>
+                                    <p class="text-xs text-[#9AA9A0] mb-3"><strong class="text-white">Origin:</strong> ${samp.origin}</p>${samp.notes ? `<p class="text-xs text-[#718077] mb-4">${samp.notes}</p>` : ''}
+                                </div>
+                                <div class="pt-4 border-t border-[#2B3931] flex items-center justify-between">
+                                    <button onclick="openViewSampleModal('${samp.id}')" class="text-xs font-semibold text-[#65E6B1] hover:underline">View Sample →</button>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="openEditSampleModal('${samp.id}')" class="p-1.5 rounded-lg bg-[#141A16] border border-[#2B3931] text-[#9AA9A0] hover:text-white transition-colors" title="Edit"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
+                                        <button onclick="deleteSample('${samp.id}')" class="p-1.5 rounded-lg bg-[#141A16] border border-[#2B3931] text-[#FF7777] hover:bg-[#FF7777]/10 transition-colors" title="Delete"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('') : `
+                        <div class="col-span-full text-center py-12 bg-[#19211D] border border-[#2B3931] rounded-2xl">
+                            <i data-lucide="microscope" class="w-12 h-12 text-[#718077] mx-auto mb-3"></i>
+                            <p class="text-sm font-medium text-[#F2F5F3]">No samples found.</p>
+                            <p class="text-xs text-[#718077] mt-1">Try adjusting your search query or type filter.</p>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function setSampleType(type) {
+            sampleFilterType = type;
+            renderPage();
+        }
+
+        function handleSampleSearch(val) {
+            sampleSearchQuery = val;
+            renderPage();
+            const input = document.getElementById('sample-search');
+            if(input) {
+                input.focus();
+                input.setSelectionRange(input.value.length, input.value.length);
+            }
+        }
+
+        function deleteSample(id) {
+            const samp = db.samples.find(s => s.id === id);
+            if (!samp) return;
+            openConfirmModal(`Delete “${samp.name}”?`, 'This action cannot be undone.', () => {
+                db.samples = db.samples.filter(s => s.id !== id);
+                saveDB();
+                logActivity(`Sample deleted: ${samp.name}`, 'sample', id);
+                showToast(`Deleted sample ${samp.name}`, 'error');
+                renderPage();
+            });
+        }
+
+        function renderJournal(container) {
+            const filteredJournal = db.journal.filter(entry => {
+                const matchesTag = journalFilterTag === 'All' || entry.tag === journalFilterTag;
+                const query = journalSearchQuery.toLowerCase();
+                const matchesQuery = entry.title.toLowerCase().includes(query) || entry.body.toLowerCase().includes(query) || entry.tag.toLowerCase().includes(query);
+                return matchesTag && matchesQuery;
+            });
+
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#2B3931] gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Journal</h1>
+                        <p class="text-[#9AA9A0] text-sm mt-1">A chronological record of your lab work.</p>
+                    </div>
+                    <div>
+                        <button onclick="openJournalModal()" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#65E6B1] text-[#101412] font-semibold text-sm hover:bg-[#43C9C0] transition-colors shadow-lg shadow-[#65E6B1]/10">
+                            <i data-lucide="plus" class="w-4 h-4 mr-2"></i> New Entry
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <div class="relative flex-1">
+                        <i data-lucide="search" class="absolute left-3.5 top-3.5 w-5 h-5 text-[#718077]"></i>
+                        <input type="text" id="journal-search" value="${journalSearchQuery}" oninput="handleJournalSearch(this.value)" placeholder="Search journal entries..." class="w-full bg-[#19211D] border border-[#2B3931] rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-[#718077] focus:outline-none focus:border-[#65E6B1] transition-colors">
+                    </div>
+                    <div class="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0">
+                        ${['All', 'Observation', 'Result', 'Problem', 'Idea', 'Maintenance', 'General'].map(tag => `
+                            <button onclick="setJournalTag('${tag}')" class="px-4 py-2.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${journalFilterTag === tag ? 'bg-[#65E6B1] text-[#101412] font-semibold' : 'bg-[#19211D] border border-[#2B3931] text-[#9AA9A0] hover:text-white'}">
+                                ${tag}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    ${filteredJournal.length > 0 ? filteredJournal.map(entry => `
+                        <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6 flex flex-col md:flex-row md:items-start justify-between gap-4 hover:border-[#65E6B1]/40 transition-all">
+                            <div class="space-y-2 flex-1">
+                                <div class="flex items-center space-x-3">
+                                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#65E6B1]/10 text-[#65E6B1] border border-[#65E6B1]/30">${entry.tag}</span>
+                                    <span class="text-xs text-[#718077]">${entry.date}</span>
+                                </div>
+                                <h3 class="text-lg font-semibold text-white">${entry.title}</h3>
+                                <p class="text-sm text-[#9AA9A0] leading-relaxed whitespace-pre-wrap">${entry.body}</p>
+                            </div>
+                            <div class="flex items-center space-x-2 pt-3 md:pt-0 border-t md:border-t-0 border-[#2B3931]">
+                                <button onclick="openEditJournalModal('${entry.id}')" class="p-2 rounded-xl bg-[#141A16] border border-[#2B3931] text-[#9AA9A0] hover:text-white transition-colors" title="Edit"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                <button onclick="deleteJournal('${entry.id}')" class="p-2 rounded-xl bg-[#141A16] border border-[#2B3931] text-[#FF7777] hover:bg-[#FF7777]/10 transition-colors" title="Delete"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    `).join('') : `
+                        <div class="text-center py-12 bg-[#19211D] border border-[#2B3931] rounded-2xl">
+                            <i data-lucide="book-open" class="w-12 h-12 text-[#718077] mx-auto mb-3"></i>
+                            <p class="text-sm font-medium text-[#F2F5F3]">No journal entries found.</p>
+                            <p class="text-xs text-[#718077] mt-1">Try adjusting your search query or tag filter.</p>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function setJournalTag(tag) {
+            journalFilterTag = tag;
+            renderPage();
+        }
+
+        function handleJournalSearch(val) {
+            journalSearchQuery = val;
+            renderPage();
+            const input = document.getElementById('journal-search');
+            if(input) {
+                input.focus();
+                input.setSelectionRange(input.value.length, input.value.length);
+            }
+        }
+
+        function deleteJournal(id) {
+            const entry = db.journal.find(j => j.id === id);
+            if (!entry) return;
+            openConfirmModal(`Delete “${entry.title}”?`, 'This action cannot be undone.', () => {
+                db.journal = db.journal.filter(j => j.id !== id);
+                saveDB();
+                logActivity(`Journal entry deleted: ${entry.title}`, 'journal', id);
+                showToast(`Deleted journal entry ${entry.title}`, 'error');
+                renderPage();
+            });
+        }
+
+        function renderStatistics(container) {
+            const totalExp = db.experiments.length;
+            const completedExp = db.experiments.filter(e => e.status === 'Completed').length;
+            const completionRate = totalExp > 0 ? Math.round((completedExp / totalExp) * 100) : 0;
+            const totalSamples = db.samples.length;
+            const totalJournal = db.journal.length;
+
+            const categories = ['Equipment', 'Glassware', 'Consumables', 'Reagents', 'Safety', 'Other'];
+            const catCounts = categories.map(cat => ({
+                name: cat,
+                count: db.inventory.filter(i => i.category === cat).reduce((sum, i) => sum + i.quantity, 0)
+            }));
+            const maxCatCount = Math.max(...catCounts.map(c => c.count), 1);
+
+            const statuses = ['Planned', 'In Progress', 'Completed', 'Archived'];
+            const statusCounts = statuses.map(st => ({
+                status: st,
+                count: db.experiments.filter(e => e.status === st).length
+            }));
+            const maxStatusCount = Math.max(...statusCounts.map(s => s.count), 1);
+
+            container.innerHTML = `
+                <div class="mb-8 pb-4 border-b border-[#2B3931]">
+                    <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Statistics</h1>
+                    <p class="text-[#9AA9A0] text-sm mt-1">Visual metrics and laboratory analytics.</p>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Total Experiments</span>
+                        <div class="text-3xl font-bold text-white">${totalExp}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Completion Rate</span>
+                        <div class="text-3xl font-bold text-[#65E6B1]">${completionRate}%</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Total Samples</span>
+                        <div class="text-3xl font-bold text-white">${totalSamples}</div>
+                    </div>
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-5">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-2">Journal Entries</span>
+                        <div class="text-3xl font-bold text-white">${totalJournal}</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6">
+                        <h2 class="text-lg font-semibold text-white mb-6 flex items-center"><i data-lucide="bar-chart-3" class="w-5 h-5 mr-2 text-[#65E6B1]"></i> Inventory by Category (Total Units)</h2>
+                        <div class="space-y-4">
+                            ${catCounts.map(item => {
+                                const percent = Math.round((item.count / maxCatCount) * 100);
+                                return `
+                                    <div>
+                                        <div class="flex justify-between text-xs font-medium mb-1">
+                                            <span class="text-[#F2F5F3]">${item.name}</span>
+                                            <span class="text-[#9AA9A0]">${item.count} units</span>
+                                        </div>
+                                        <div class="w-full bg-[#141A16] rounded-full h-3 border border-[#2B3931] overflow-hidden">
+                                            <div class="bg-[#65E6B1] h-full rounded-full transition-all duration-500" style="width: ${Math.max(percent, 4)}%"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="bg-[#19211D] border border-[#2B3931] rounded-2xl p-6">
+                        <h2 class="text-lg font-semibold text-white mb-6 flex items-center"><i data-lucide="pie-chart" class="w-5 h-5 mr-2 text-[#65E6B1]"></i> Experiments by Status</h2>
+                        <div class="space-y-4">
+                            ${statusCounts.map(item => {
+                                const percent = Math.round((item.count / maxStatusCount) * 100);
+                                return `
+                                    <div>
+                                        <div class="flex justify-between text-xs font-medium mb-1">
+                                            <span class="text-[#F2F5F3]">${item.status}</span>
+                                            <span class="text-[#9AA9A0]">${item.count} experiments</span>
+                                        </div>
+                                        <div class="w-full bg-[#141A16] rounded-full h-3 border border-[#2B3931] overflow-hidden">
+                                            <div class="bg-[#43C9C0] h-full rounded-full transition-all duration-500" style="width: ${Math.max(percent, 4)}%"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModal(html) {
+            const container = document.getElementById('modal-container');
+            const content = document.getElementById('modal-content');
+            content.innerHTML = html;
+            container.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById('modal-container').classList.add('hidden');
+        }
+
+        function openQuickEntryModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <h3 class="text-lg font-bold text-white">Quick Entry</h3>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="closeModal(); openInventoryModal();" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] text-left group">
+                        <i data-lucide="package-plus" class="w-6 h-6 text-[#65E6B1] mb-2"></i>
+                        <h4 class="font-semibold text-white text-sm">Add Inventory Item</h4>
+                        <p class="text-xs text-[#718077] mt-1">Register new equipment or reagents.</p>
+                    </button>
+                    <button onclick="closeModal(); openExperimentModal();" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] text-left group">
+                        <i data-lucide="flask-conical" class="w-6 h-6 text-[#65E6B1] mb-2"></i>
+                        <h4 class="font-semibold text-white text-sm">New Experiment</h4>
+                        <p class="text-xs text-[#718077] mt-1">Start planning a new research protocol.</p>
+                    </button>
+                    <button onclick="closeModal(); openSampleModal();" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] text-left group">
+                        <i data-lucide="layers" class="w-6 h-6 text-[#65E6B1] mb-2"></i>
+                        <h4 class="font-semibold text-white text-sm">Add Sample / Slide</h4>
+                        <p class="text-xs text-[#718077] mt-1">Catalog biological specimen or slide.</p>
+                    </button>
+                    <button onclick="closeModal(); openJournalModal();" class="p-4 rounded-xl bg-[#141A16] border border-[#2B3931] hover:border-[#65E6B1] text-left group">
+                        <i data-lucide="notebook-pen" class="w-6 h-6 text-[#65E6B1] mb-2"></i>
+                        <h4 class="font-semibold text-white text-sm">New Journal Entry</h4>
+                        <p class="text-xs text-[#718077] mt-1">Record daily notes and observations.</p>
+                    </button>
+                </div>
+            `);
+        }
+
+        function openConfirmModal(title, message, onConfirm) {
+            openModal(`
+                <div class="text-center py-4">
+                    <div class="w-12 h-12 rounded-full bg-[#FF7777]/10 border border-[#FF7777]/30 flex items-center justify-center text-[#FF7777] mx-auto mb-4">
+                        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">${title}</h3>
+                    <p class="text-sm text-[#9AA9A0] mb-6">${message}</p>
+                    <div class="flex space-x-3 justify-center">
+                        <button onclick="closeModal()" class="px-5 py-2.5 rounded-xl bg-[#141A16] border border-[#2B3931] text-xs font-semibold text-white hover:bg-[#202B25]">Cancel</button>
+                        <button id="confirm-action-btn" class="px-5 py-2.5 rounded-xl bg-[#FF7777] text-[#101412] text-xs font-semibold hover:bg-[#ff5555]">Delete</button>
+                    </div>
+                </div>
+            `);
+            document.getElementById('confirm-action-btn').onclick = () => {
+                closeModal();
+                onConfirm();
+            };
+        }
+
+        function openInventoryModal(editId = null) {
+            const item = editId ? db.inventory.find(i => i.id === editId) : null;
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <h3 class="text-lg font-bold text-white">${item ? 'Edit Inventory Item' : 'Add Inventory Item'}</h3>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <form id="inventory-form" onsubmit="saveInventoryItem(event, '${editId || ''}')" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Item Name *</label>
+                        <input type="text" id="inv-name" required value="${item ? item.name : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Category</label>
+                            <select id="inv-cat" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                                ${['Equipment', 'Glassware', 'Consumables', 'Reagents', 'Safety', 'Other'].map(c => `<option value="${c}" ${item && item.category === c ? 'selected' : ''}>${c}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Storage Location</label>
+                            <input type="text" id="inv-loc" value="${item ? item.storageLocation : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Quantity</label>
+                            <input type="number" id="inv-qty" min="0" required value="${item ? item.quantity : 1}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Unit</label>
+                            <input type="text" id="inv-unit" oninput="updateUnitLabel(this.value)" value="${item ? item.unit : 'piece'}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Minimum Stock (<span id="min-unit-label">${item ? item.unit : 'piece'}</span>)</label>
+                            <input type="number" id="inv-min" min="0" required value="${item ? item.minimumStock : 2}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Notes</label>
+                        <textarea id="inv-notes" rows="3" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${item ? item.notes : ''}</textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-[#2B3931]">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-[#101412] border border-[#2B3931] text-xs font-semibold text-white">Cancel</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-[#65E6B1] text-[#101412] text-xs font-semibold hover:bg-[#43C9C0]">Save Item</button>
+                    </div>
+                </form>
+            `);
+        }
+
+        function updateUnitLabel(val) {
+            const label = document.getElementById('min-unit-label');
+            if (label) {
+                label.textContent = val.trim() || 'unit';
+            }
+        }
+
+        function openEditInventoryModal(id) {
+            openInventoryModal(id);
+        }
+
+        function openViewInventoryModal(id) {
+            const item = db.inventory.find(i => i.id === id);
+            if(!item) return;
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <h3 class="text-lg font-bold text-white">${item.name}</h3>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div class="space-y-4 text-sm">
+                    <div class="grid grid-cols-2 gap-4 bg-[#101412] p-4 rounded-xl border border-[#2B3931]">
+                        <div><strong class="text-[#9AA9A0]">Category:</strong> <span class="text-white">${item.category}</span></div>
+                        <div><strong class="text-[#9AA9A0]">Location:</strong> <span class="text-white">${item.storageLocation}</span></div>
+                        <div><strong class="text-[#9AA9A0]">Quantity:</strong> <span class="text-white">${item.quantity} ${item.unit}</span></div>
+                        <div><strong class="text-[#9AA9A0]">Minimum Stock:</strong> <span class="text-white">${item.minimumStock} ${item.unit}</span></div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-medium text-[#9AA9A0] mb-1">Notes</h4>
+                        <p class="text-white bg-[#101412] p-4 rounded-xl border border-[#2B3931]">${item.notes || 'No notes provided.'}</p>
+                    </div>
+                    <div class="flex justify-end pt-4 border-t border-[#2B3931]">
+                        <button onclick="closeModal(); openEditInventoryModal('${item.id}');" class="px-4 py-2 rounded-xl bg-[#65E6B1] text-[#101412] text-xs font-semibold">Edit Item</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function saveInventoryItem(e, editId) {
+            e.preventDefault();
+            const name = document.getElementById('inv-name').value.trim();
+            const category = document.getElementById('inv-cat').value;
+            const storageLocation = document.getElementById('inv-loc').value.trim();
+            const quantity = parseInt(document.getElementById('inv-qty').value) || 0;
+            const unit = document.getElementById('inv-unit').value.trim() || 'piece';
+            const minimumStock = parseInt(document.getElementById('inv-min').value) || 0;
+            const notes = document.getElementById('inv-notes').value.trim();
+
+            if (editId) {
+                const item = db.inventory.find(i => i.id === editId);
+                if (item) {
+                    item.name = name;
+                    item.category = category;
+                    item.storageLocation = storageLocation;
+                    item.quantity = quantity;
+                    item.unit = unit;
+                    item.minimumStock = minimumStock;
+                    item.notes = notes;
+                    item.updatedAt = new Date().toISOString();
+                    logActivity(`Inventory item updated: ${name}`, 'inventory', editId);
+                    showToast(`Updated ${name}`);
+                }
+            } else {
+                const newItem = {
+                    id: 'inv-' + Date.now(),
+                    name,
+                    category,
+                    storageLocation,
+                    quantity,
+                    unit,
+                    minimumStock,
+                    notes,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                db.inventory.push(newItem);
+                logActivity(`Inventory item added: ${name}`, 'inventory', newItem.id);
+                showToast(`Added ${name}`);
+            }
+
+            saveDB();
+            closeModal();
+            renderPage();
+        }
+
+        function openExperimentModal(editId = null) {
+            const exp = editId ? db.experiments.find(e => e.id === editId) : null;
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <h3 class="text-lg font-bold text-white">${exp ? 'Edit Experiment' : 'New Experiment'}</h3>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <form id="experiment-form" onsubmit="saveExperiment(event, '${editId || ''}')" class="space-y-4 max-h-[75vh] overflow-y-auto pr-2">
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Experiment Title *</label>
+                        <input type="text" id="exp-title" required value="${exp ? exp.title : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Category</label>
+                            <input type="text" id="exp-cat" value="${exp ? exp.category : 'General'}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Date</label>
+                            <input type="date" id="exp-date" value="${exp ? exp.date : new Date().toISOString().slice(0, 10)}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Status</label>
+                            <select id="exp-status" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                                ${['Planned', 'In Progress', 'Completed', 'Archived'].map(s => `<option value="${s}" ${exp && exp.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Research Question</label>
+                        <input type="text" id="exp-rq" value="${exp ? exp.researchQuestion : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Hypothesis</label>
+                        <textarea id="exp-hyp" rows="2" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${exp ? exp.hypothesis : ''}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Materials Needed</label>
+                        <textarea id="exp-mat" rows="2" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${exp ? exp.materials : ''}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Method / Procedure Notes</label>
+                        <textarea id="exp-meth" rows="3" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${exp ? exp.method : ''}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Observations</label>
+                        <textarea id="exp-obs" rows="3" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${exp ? exp.observations : ''}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Results</label>
+                        <textarea id="exp-res" rows="2" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${exp ? exp.results : ''}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Conclusion</label>
+                        <textarea id="exp-conc" rows="2" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${exp ? exp.conclusion : ''}</textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-[#2B3931]">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-[#101412] border border-[#2B3931] text-xs font-semibold text-white">Cancel</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-[#65E6B1] text-[#101412] text-xs font-semibold hover:bg-[#43C9C0]">Save Experiment</button>
+                    </div>
+                </form>
+            `);
+        }
+
+        function openEditExperimentModal(id) {
+            openExperimentModal(id);
+        }
+
+        function openViewExperimentModal(id) {
+            const exp = db.experiments.find(e => e.id === id);
+            if(!exp) return;
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">${exp.title}</h3>
+                        <p class="text-xs text-[#65E6B1] mt-0.5">${exp.category} · ${exp.date}</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div class="space-y-4 text-sm max-h-[75vh] overflow-y-auto pr-2">
+                    <div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]">
+                        <span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Status</span>
+                        <span class="text-white font-semibold">${exp.status}</span>
+                    </div>
+                    ${exp.researchQuestion ? `<div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]"><span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Research Question</span><p class="text-white">${exp.researchQuestion}</p></div>` : ''}
+                    ${exp.hypothesis ? `<div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]"><span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Hypothesis</span><p class="text-white">${exp.hypothesis}</p></div>` : ''}
+                    ${exp.materials ? `<div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]"><span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Materials</span><p class="text-white whitespace-pre-wrap">${exp.materials}</p></div>` : ''}
+                    ${exp.method ? `<div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]"><span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Method / Procedure</span><p class="text-white whitespace-pre-wrap">${exp.method}</p></div>` : ''}
+                    ${exp.observations ? `<div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]"><span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Observations</span><p class="text-white whitespace-pre-wrap">${exp.observations}</p></div>` : ''}
+                    ${exp.results ? `<div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]"><span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Results</span><p class="text-white whitespace-pre-wrap">${exp.results}</p></div>` : ''}
+                    ${exp.conclusion ? `<div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]"><span class="text-xs font-medium text-[#9AA9A0] uppercase tracking-wider block mb-1">Conclusion</span><p class="text-white whitespace-pre-wrap">${exp.conclusion}</p></div>` : ''}
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-[#2B3931]">
+                        <button onclick="closeModal(); openEditExperimentModal('${exp.id}');" class="px-4 py-2 rounded-xl bg-[#65E6B1] text-[#101412] text-xs font-semibold">Edit Experiment</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function saveExperiment(e, editId) {
+            e.preventDefault();
+            const title = document.getElementById('exp-title').value.trim();
+            const category = document.getElementById('exp-cat').value.trim();
+            const date = document.getElementById('exp-date').value;
+            const status = document.getElementById('exp-status').value;
+            const researchQuestion = document.getElementById('exp-rq').value.trim();
+            const hypothesis = document.getElementById('exp-hyp').value.trim();
+            const materials = document.getElementById('exp-mat').value.trim();
+            const method = document.getElementById('exp-meth').value.trim();
+            const observations = document.getElementById('exp-obs').value.trim();
+            const results = document.getElementById('exp-res').value.trim();
+            const conclusion = document.getElementById('exp-conc').value.trim();
+
+            if (editId) {
+                const exp = db.experiments.find(e => e.id === editId);
+                if (exp) {
+                    exp.title = title;
+                    exp.category = category;
+                    exp.date = date;
+                    exp.status = status;
+                    exp.researchQuestion = researchQuestion;
+                    exp.hypothesis = hypothesis;
+                    exp.materials = materials;
+                    exp.method = method;
+                    exp.observations = observations;
+                    exp.results = results;
+                    exp.conclusion = conclusion;
+                    logActivity(`Experiment updated: ${title}`, 'experiment', editId);
+                    showToast(`Updated experiment ${title}`);
+                }
+            } else {
+                const newExp = {
+                    id: 'exp-' + Date.now(),
+                    title,
+                    category,
+                    date,
+                    status,
+                    researchQuestion,
+                    hypothesis,
+                    materials,
+                    method,
+                    observations,
+                    results,
+                    conclusion,
+                    relatedSampleIds: [],
+                    relatedInventoryIds: []
+                };
+                db.experiments.push(newExp);
+                logActivity(`Experiment created: ${title}`, 'experiment', newExp.id);
+                showToast(`Created experiment ${title}`);
+            }
+
+            saveDB();
+            closeModal();
+            renderPage();
+        }
+
+        function openSampleModal(editId = null) {
+            const samp = editId ? db.samples.find(s => s.id === editId) : null;
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <h3 class="text-lg font-bold text-white">${samp ? 'Edit Sample' : 'Add Sample'}</h3>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <form id="sample-form" onsubmit="saveSample(event, '${editId || ''}')" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Sample Name *</label>
+                        <input type="text" id="samp-name" required value="${samp ? samp.name : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Sample Type</label>
+                            <select id="samp-type" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                                ${['Plant', 'Prepared Slide', 'Food Sample', 'Water Sample', 'Other'].map(t => `<option value="${t}" ${samp && samp.type === t ? 'selected' : ''}>${t}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Status</label>
+                            <select id="samp-status" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                                ${['Stored', 'In Use', 'Disposed'].map(s => `<option value="${s}" ${samp && samp.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Date Added</label>
+                            <input type="date" id="samp-date" value="${samp ? samp.date : new Date().toISOString().slice(0, 10)}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Storage Location</label>
+                            <input type="text" id="samp-loc" value="${samp ? samp.storageLocation : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Origin / Description</label>
+                        <input type="text" id="samp-origin" value="${samp ? samp.origin : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Notes & Observations</label>
+                        <textarea id="samp-notes" rows="3" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${samp ? samp.notes : ''}</textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-[#2B3931]">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-[#101412] border border-[#2B3931] text-xs font-semibold text-white">Cancel</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-[#65E6B1] text-[#101412] text-xs font-semibold hover:bg-[#43C9C0]">Save Sample</button>
+                    </div>
+                </form>
+            `);
+        }
+
+        function openEditSampleModal(id) {
+            openSampleModal(id);
+        }
+
+        function openViewSampleModal(id) {
+            const samp = db.samples.find(s => s.id === id);
+            if(!samp) return;
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <h3 class="text-lg font-bold text-white">${samp.name}</h3>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div class="space-y-4 text-sm">
+                    <div class="grid grid-cols-2 gap-4 bg-[#101412] p-4 rounded-xl border border-[#2B3931]">
+                        <div><strong class="text-[#9AA9A0]">Type:</strong> <span class="text-white">${samp.type}</span></div>
+                        <div><strong class="text-[#9AA9A0]">Status:</strong> <span class="text-white">${samp.status}</span></div>
+                        <div><strong class="text-[#9AA9A0]">Date:</strong> <span class="text-white">${samp.date}</span></div>
+                        <div><strong class="text-[#9AA9A0]">Location:</strong> <span class="text-white">${samp.storageLocation}</span></div>
+                    </div>
+                    <div class="bg-[#101412] p-4 rounded-xl border border-[#2B3931]">
+                        <strong class="text-[#9AA9A0] block mb-1">Origin</strong>
+                        <p class="text-white">${samp.origin || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-medium text-[#9AA9A0] mb-1">Notes</h4>
+                        <p class="text-white bg-[#101412] p-4 rounded-xl border border-[#2B3931]">${samp.notes || 'No notes provided.'}</p>
+                    </div>
+                    <div class="flex justify-end pt-4 border-t border-[#2B3931]">
+                        <button onclick="closeModal(); openEditSampleModal('${samp.id}');" class="px-4 py-2 rounded-xl bg-[#65E6B1] text-[#101412] text-xs font-semibold">Edit Sample</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function saveSample(e, editId) {
+            e.preventDefault();
+            const name = document.getElementById('samp-name').value.trim();
+            const type = document.getElementById('samp-type').value;
+            const status = document.getElementById('samp-status').value;
+            const date = document.getElementById('samp-date').value;
+            const storageLocation = document.getElementById('samp-loc').value.trim();
+            const origin = document.getElementById('samp-origin').value.trim();
+            const notes = document.getElementById('samp-notes').value.trim();
+
+            if (editId) {
+                const samp = db.samples.find(s => s.id === editId);
+                if (samp) {
+                    samp.name = name;
+                    samp.type = type;
+                    samp.status = status;
+                    samp.date = date;
+                    samp.storageLocation = storageLocation;
+                    samp.origin = origin;
+                    samp.notes = notes;
+                    logActivity(`Sample updated: ${name}`, 'sample', editId);
+                    showToast(`Updated sample ${name}`);
+                }
+            } else {
+                const newSamp = {
+                    id: 'samp-' + Date.now(),
+                    name,
+                    type,
+                    status,
+                    date,
+                    storageLocation,
+                    origin,
+                    notes,
+                    relatedExperimentId: '',
+                    photoReference: ''
+                };
+                db.samples.push(newSamp);
+                logActivity(`Sample cataloged: ${name}`, 'sample', newSamp.id);
+                showToast(`Cataloged sample ${name}`);
+            }
+
+            saveDB();
+            closeModal();
+            renderPage();
+        }
+
+        function openJournalModal(editId = null) {
+            const entry = editId ? db.journal.find(j => j.id === editId) : null;
+            openModal(`
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#2B3931]">
+                    <h3 class="text-lg font-bold text-white">${entry ? 'Edit Journal Entry' : 'New Journal Entry'}</h3>
+                    <button onclick="closeModal()" class="text-[#9AA9A0] hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <form id="journal-form" onsubmit="saveJournalEntry(event, '${editId || ''}')" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Entry Title *</label>
+                        <input type="text" id="jour-title" required value="${entry ? entry.title : ''}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Date</label>
+                            <input type="date" id="jour-date" value="${entry ? entry.date : new Date().toISOString().slice(0, 10)}" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Tag</label>
+                            <select id="jour-tag" class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">
+                                ${['Observation', 'Result', 'Problem', 'Idea', 'Maintenance', 'General'].map(t => `<option value="${t}" ${entry && entry.tag === t ? 'selected' : ''}>${t}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-[#9AA9A0] mb-1">Journal Notes & Observations *</label>
+                        <textarea id="jour-body" rows="5" required class="w-full bg-[#101412] border border-[#2B3931] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#65E6B1]">${entry ? entry.body : ''}</textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-[#2B3931]">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-[#101412] border border-[#2B3931] text-xs font-semibold text-white">Cancel</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-[#65E6B1] text-[#101412] text-xs font-semibold hover:bg-[#43C9C0]">Save Entry</button>
+                    </div>
+                </form>
+            `);
+        }
+
+        function openEditJournalModal(id) {
+            openJournalModal(id);
+        }
+
+        function saveJournalEntry(e, editId) {
+            e.preventDefault();
+            const title = document.getElementById('jour-title').value.trim();
+            const date = document.getElementById('jour-date').value;
+            const tag = document.getElementById('jour-tag').value;
+            const body = document.getElementById('jour-body').value.trim();
+
+            if (editId) {
+                const entry = db.journal.find(j => j.id === editId);
+                if (entry) {
+                    entry.title = title;
+                    entry.date = date;
+                    entry.tag = tag;
+                    entry.body = body;
+                    logActivity(`Journal entry updated: ${title}`, 'journal', editId);
+                    showToast(`Updated journal entry ${title}`);
+                }
+            } else {
+                const newEntry = {
+                    id: 'jour-' + Date.now(),
+                    title,
+                    date,
+                    tag,
+                    relatedExperimentId: '',
+                    relatedSampleId: '',
+                    body,
+                    photoReference: ''
+                };
+                db.journal.unshift(newEntry);
+                logActivity(`Journal entry saved: "${title}"`, 'journal', newEntry.id);
+                showToast(`Saved journal entry ${title}`);
+            }
+
+            saveDB();
+            closeModal();
+            renderPage();
+        }
+
+        renderPage();
+    </script>
+</body>
+</html>
